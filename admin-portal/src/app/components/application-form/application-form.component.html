@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? 'Edit Application' : 'Register New Application' }}
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="applicationForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Application Name</mat-label>
+      <input 
+        matInput 
+        formControlName="name" 
+        [readonly]="readOnly"
+      >
+      <mat-error *ngIf="applicationForm.get('name')?.invalid">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Domain</mat-label>
+      <input 
+        matInput 
+        formControlName="domain" 
+        [readonly]="readOnly"
+      >
+      <mat-error *ngIf="applicationForm.get('domain')?.invalid">
+        Domain is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea 
+        matInput 
+        formControlName="description" 
+        [readonly]="readOnly"
+      ></textarea>
+      <mat-error *ngIf="applicationForm.get('description')?.invalid">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="application && application.apiKey" class="api-key-section">
+      <mat-form-field appearance="outline">
+        <mat-label>API Key</mat-label>
+        <input 
+          matInput 
+          [value]="application.apiKey" 
+          readonly
+        >
+        <button 
+          matSuffix 
+          mat-icon-button 
+          (click)="copyApiKey()"
+          matTooltip="Copy API Key"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="isEditMode" class="status-section">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" [disabled]="readOnly">
+          <mat-option value="active">Active</mat-option>
+          <mat-option value="inactive">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    {{ readOnly ? 'Close' : 'Cancel' }}
+  </button>
+  <button 
+    *ngIf="!readOnly"
+    mat-raised-button 
+    color="primary" 
+    (click)="onSubmit()"
+    [disabled]="applicationForm.invalid"
+  >
+    {{ isEditMode ? 'Update' : 'Register' }}
+  </button>
+</mat-dialog-actions>

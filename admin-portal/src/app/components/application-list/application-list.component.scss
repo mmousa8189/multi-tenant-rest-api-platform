@@ -1,0 +1,67 @@
+.applications-container {
+  padding: 20px;
+
+  mat-card {
+    mat-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      mat-card-title {
+        margin: 0;
+      }
+
+      mat-card-actions {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    mat-card-content {
+      mat-form-field {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+
+        .mat-column-actions {
+          width: 120px;
+          text-align: center;
+        }
+
+        .mat-column-status {
+          width: 120px;
+          text-align: center;
+
+          mat-slide-toggle {
+            margin: 0 8px;
+          }
+        }
+
+        .mat-column-requestCount {
+          width: 120px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.mat-basic-chip {
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+
+  &.mat-primary {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  &.mat-warn {
+    background-color: #f44336;
+    color: white;
+  }
+}
