@@ -18,13 +18,14 @@ A multi-tenant REST API platform with an admin portal for managing applications 
 
 ## Project Structure
 
-The project is organized into two main components:
-- `application-api/`: Backend REST API service
+The project is organized into three main components:
+- `application-api/`: Backend REST API service (Express.js)
+- `application-api-nestjs/`: Backend REST API service (NestJS)
 - `admin-portal/`: Frontend admin interface
 
 ## Installation
 
-### Backend Setup
+### Backend Setup (Express.js)
 
 1. Navigate to the backend directory:
    ```bash
@@ -44,6 +45,34 @@ The project is organized into two main components:
    ```bash
    npm start
    ```
+
+### Backend Setup (NestJS)
+
+1. Navigate to the NestJS backend directory:
+   ```bash
+   cd application-api-nestjs
+   ```
+
+2. Install backend dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env`
+   - Update the values in `.env` with your database credentials
+
+4. Start the backend server:
+   ```bash
+   # Development
+   npm run start:dev
+
+   # Production
+   npm run build
+   npm run start:prod
+   ```
+
+The NestJS API will be available at `http://localhost:3000` and the Swagger documentation at `http://localhost:3000/api`.
 
 ### Frontend Setup (Angular Admin Portal)
 
