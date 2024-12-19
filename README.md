@@ -9,6 +9,11 @@ A multi-tenant REST API platform with an admin portal for managing applications 
 - Secure API endpoints with API key authentication
 - Application domain description endpoint
 - Dashboard for data insights
+- Multi-tenant support
+- Swagger API documentation
+- Winston logging
+- Rate limiting
+- Security features (JWT authentication, Helmet, CORS)
 
 ## Prerequisites
 
@@ -60,7 +65,13 @@ The project is organized into three main components:
 
 3. Set up environment variables:
    - Copy `.env.example` to `.env`
-   - Update the values in `.env` with your database credentials
+   - Update the values in `.env`:
+   ```
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/multi-tenant-api
+   JWT_SECRET=your-secret-key-here
+   FRONTEND_URL=http://localhost:4200
+   ```
 
 4. Start the backend server:
    ```bash
@@ -70,6 +81,23 @@ The project is organized into three main components:
    # Production
    npm run build
    npm run start:prod
+   ```
+
+5. Access the Swagger API documentation at:
+   ```
+   http://localhost:3000/api-docs
+   ```
+
+6. Run tests:
+   ```bash
+   # Unit tests
+   npm run test
+
+   # e2e tests
+   npm run test:e2e
+
+   # Test coverage
+   npm run test:cov
    ```
 
 The NestJS API will be available at `http://localhost:3000` and the Swagger documentation at `http://localhost:3000/api`.
@@ -131,3 +159,17 @@ Use API key in the X-API-Key header:
 ```
 X-API-Key: <api-key>
 ```
+
+## Security
+
+The platform implements several security measures:
+- JWT authentication for users
+- API key authentication for applications
+- Rate limiting
+- Helmet security headers
+- CORS protection
+- Input validation
+
+## License
+
+MIT
