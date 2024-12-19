@@ -5,12 +5,12 @@ export class CreateApplicationDto {
   @ApiProperty({ description: 'Name of the application' })
   @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  readonly name!: string;
 
   @ApiProperty({ description: 'Domain of the application' })
   @IsString()
   @IsNotEmpty()
-  readonly domain: string;
+  readonly domain!: string;
 
   @ApiPropertyOptional({ description: 'Description of the application' })
   @IsString()

@@ -5,6 +5,12 @@ import { CreateApplicationDto } from './dto/create-application.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Application } from './schemas/application.schema';
 
+interface RequestWithUser extends Request {
+  user: {
+    userId: string;
+  };
+}
+
 @ApiTags('applications')
 @Controller('api/applications')
 export class ApplicationController {
@@ -15,7 +21,7 @@ export class ApplicationController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new application' })
   @ApiResponse({ status: 201, description: 'Application created successfully' })
-  async create(@Request() req, @Body() createApplicationDto: CreateApplicationDto): Promise<Application> {
+  async create(@Request() req: RequestWithUser, @Body() createApplicationDto: CreateApplicationDto): Promise<Application> {
     return this.applicationService.create(createApplicationDto, req.user.userId);
   }
 
@@ -23,7 +29,7 @@ export class ApplicationController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all applications' })
-  async findAll(@Request() req): Promise<Application[]> {
+  async findAll(@Request() req: RequestWithUser): Promise<Application[]> {
     return this.applicationService.findAll(req.user.userId);
   }
 
@@ -31,7 +37,7 @@ export class ApplicationController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get application by ID' })
-  async findOne(@Param('id') id: string, @Request() req): Promise<Application> {
+  async findOne(@Param('id') id: string, @Request() req: RequestWithUser): Promise<Application> {
     return this.applicationService.findOne(id, req.user.userId);
   }
 
@@ -42,7 +48,7 @@ export class ApplicationController {
   async update(
     @Param('id') id: string,
     @Body() updateApplicationDto: CreateApplicationDto,
-    @Request() req,
+    @Request() req: RequestWithUser,
   ): Promise<Application> {
     return this.applicationService.update(id, updateApplicationDto, req.user.userId);
   }
@@ -51,7 +57,7 @@ export class ApplicationController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete application' })
-  async remove(@Param('id') id: string, @Request() req): Promise<void> {
+  async remove(@Param('id') id: string, @Request() req: RequestWithUser): Promise<void> {
     return this.applicationService.remove(id, req.user.userId);
   }
 }

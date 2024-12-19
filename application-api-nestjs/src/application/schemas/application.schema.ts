@@ -6,11 +6,11 @@ import { ApiProperty } from '@nestjs/swagger';
 export class Application extends Document {
   @ApiProperty({ description: 'Name of the application' })
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @ApiProperty({ description: 'Domain of the application' })
   @Prop({ required: true })
-  domain: string;
+  domain!: string;
 
   @ApiProperty({ description: 'Description of the application' })
   @Prop()
@@ -18,15 +18,15 @@ export class Application extends Document {
 
   @ApiProperty({ description: 'Auto-generated API key' })
   @Prop({ unique: true })
-  apiKey: string;
+  apiKey!: string;
 
   @ApiProperty({ description: 'Status of the application' })
   @Prop({ default: 'active' })
-  status: string;
+  status!: string;
 
   @ApiProperty({ description: 'Owner ID of the application' })
   @Prop({ required: true })
-  ownerId: string;
+  ownerId!: string;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);

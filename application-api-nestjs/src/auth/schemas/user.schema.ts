@@ -6,19 +6,19 @@ import { ApiProperty } from '@nestjs/swagger';
 export class User extends Document {
   @ApiProperty()
   @Prop({ required: true, unique: true })
-  email: string;
+  email!: string;
 
   @ApiProperty()
   @Prop({ required: true })
-  password: string;
+  password!: string;
 
   @ApiProperty()
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @ApiProperty()
   @Prop({ default: 'active' })
-  status: string;
+  status!: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
