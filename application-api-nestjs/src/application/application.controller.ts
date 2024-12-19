@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse, ApiSecurity } from '@nestjs/swagger';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -9,6 +9,7 @@ import { Application } from './schemas/application.schema';
 interface RequestWithUser extends Request {
   user: {
     userId: string;
+    apiKey: string;
   };
 }
 
@@ -66,7 +67,9 @@ export class ApplicationController {
   @UseGuards(ApiKeyAuthGuard)
   @ApiOperation({ summary: 'Test domain endpoint that returns application details based on API key' })
   @ApiResponse({ status: 200, description: 'Returns application domain and description', type: Application })
+  @ApiResponse({ status: 401, description: 'Unauthorized - Invalid or missing API key' })
+  @ApiSecurity('X-API-Key')
   async testDomain(@Request() req: any): Promise<Partial<Application>> {
-    return this.applicationService.getApplicationByApiKey(req.apiKey);
+    return this.applicationService.getApplicationByApiKey(req.user.apiKey);
   }
 }

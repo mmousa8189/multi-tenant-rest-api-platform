@@ -40,7 +40,7 @@ let ApplicationController = class ApplicationController {
         return this.applicationService.remove(id, req.user.userId);
     }
     async testDomain(req) {
-        return this.applicationService.getApplicationByApiKey(req.apiKey);
+        return this.applicationService.getApplicationByApiKey(req.user.apiKey);
     }
 };
 exports.ApplicationController = ApplicationController;
@@ -105,6 +105,8 @@ __decorate([
     (0, common_1.UseGuards)(api_key_auth_guard_1.ApiKeyAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Test domain endpoint that returns application details based on API key' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns application domain and description', type: application_schema_1.Application }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized - Invalid or missing API key' }),
+    (0, swagger_1.ApiSecurity)('X-API-Key'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

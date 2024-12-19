@@ -16,17 +16,20 @@ const passport_headerapikey_1 = require("passport-headerapikey");
 const application_service_1 = require("../../application/application.service");
 let ApiKeyStrategy = class ApiKeyStrategy extends (0, passport_1.PassportStrategy)(passport_headerapikey_1.HeaderAPIKeyStrategy, 'api-key') {
     constructor(applicationService) {
-        super({ header: 'X-API-Key', prefix: '' }, true, async (apiKey, done) => {
+        super({ header: 'X-API-Key', prefix: '' }, false, async (apiKey, done) => {
+            if (!apiKey) {
+                return done(new common_1.UnauthorizedException('API key is missing'), null);
+            }
             try {
                 const application = await this.applicationService.findByApiKey(apiKey);
                 if (!application) {
-                    return done(new common_1.UnauthorizedException(), false);
+                    return done(new common_1.UnauthorizedException('Invalid API key'), null);
                 }
                 return done(null, application);
             }
             catch (err) {
-                console.log(err);
-                return done(new common_1.UnauthorizedException(), false);
+                console.error('API Key validation error:', err);
+                return done(new common_1.UnauthorizedException('Invalid API key'), null);
             }
         });
         this.applicationService = applicationService;

@@ -4,6 +4,7 @@ import { Application } from './schemas/application.schema';
 interface RequestWithUser extends Request {
     user: {
         userId: string;
+        apiKey: string;
     };
 }
 export declare class ApplicationController {

@@ -8,17 +8,21 @@ export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'api-
   constructor(private readonly applicationService: ApplicationService) {
     super(
       { header: 'X-API-Key', prefix: '' },
-      true,
+      false, // Set to false to handle validation ourselves
       async (apiKey: string, done: any) => {
+        if (!apiKey) {
+          return done(new UnauthorizedException('API key is missing'), null);
+        }
+
         try {
           const application = await this.applicationService.findByApiKey(apiKey);
           if (!application) {
-            return done(new UnauthorizedException(), false);
+            return done(new UnauthorizedException('Invalid API key'), null);
           }
           return done(null, application);
         } catch (err) {
-          console.log(err);
-          return done(new UnauthorizedException(), false);
+          console.error('API Key validation error:', err);
+          return done(new UnauthorizedException('Invalid API key'), null);
         }
       },
     );
