@@ -56,6 +56,13 @@ let ApplicationService = class ApplicationService {
         }
         return application;
     }
+    async getApplicationByApiKey(apiKey) {
+        const application = await this.findByApiKey(apiKey);
+        return {
+            domain: application.domain,
+            description: application.description
+        };
+    }
 };
 exports.ApplicationService = ApplicationService;
 exports.ApplicationService = ApplicationService = __decorate([

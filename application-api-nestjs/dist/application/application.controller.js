@@ -18,6 +18,8 @@ const swagger_1 = require("@nestjs/swagger");
 const application_service_1 = require("./application.service");
 const create_application_dto_1 = require("./dto/create-application.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const api_key_auth_guard_1 = require("../auth/guards/api-key-auth.guard");
+const application_schema_1 = require("./schemas/application.schema");
 let ApplicationController = class ApplicationController {
     constructor(applicationService) {
         this.applicationService = applicationService;
@@ -36,6 +38,9 @@ let ApplicationController = class ApplicationController {
     }
     async remove(id, req) {
         return this.applicationService.remove(id, req.user.userId);
+    }
+    async testDomain(req) {
+        return this.applicationService.getApplicationByApiKey(req.apiKey);
     }
 };
 exports.ApplicationController = ApplicationController;
@@ -95,6 +100,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ApplicationController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Get)('/test/domain'),
+    (0, common_1.UseGuards)(api_key_auth_guard_1.ApiKeyAuthGuard),
+    (0, swagger_1.ApiOperation)({ summary: 'Test domain endpoint that returns application details based on API key' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns application domain and description', type: application_schema_1.Application }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ApplicationController.prototype, "testDomain", null);
 exports.ApplicationController = ApplicationController = __decorate([
     (0, swagger_1.ApiTags)('applications'),
     (0, common_1.Controller)('api/applications'),

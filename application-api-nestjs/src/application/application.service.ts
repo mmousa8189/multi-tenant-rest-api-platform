@@ -54,4 +54,12 @@ export class ApplicationService {
     }
     return application;
   }
+
+  async getApplicationByApiKey(apiKey: string): Promise<Partial<Application>> {
+    const application = await this.findByApiKey(apiKey);
+    return {
+      domain: application.domain,
+      description: application.description
+    };
+  }
 }

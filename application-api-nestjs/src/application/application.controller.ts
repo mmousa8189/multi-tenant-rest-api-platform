@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagg
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiKeyAuthGuard } from '../auth/guards/api-key-auth.guard';
 import { Application } from './schemas/application.schema';
 
 interface RequestWithUser extends Request {
@@ -59,5 +60,13 @@ export class ApplicationController {
   @ApiOperation({ summary: 'Delete application' })
   async remove(@Param('id') id: string, @Request() req: RequestWithUser): Promise<void> {
     return this.applicationService.remove(id, req.user.userId);
+  }
+
+  @Get('/test/domain')
+  @UseGuards(ApiKeyAuthGuard)
+  @ApiOperation({ summary: 'Test domain endpoint that returns application details based on API key' })
+  @ApiResponse({ status: 200, description: 'Returns application domain and description', type: Application })
+  async testDomain(@Request() req: any): Promise<Partial<Application>> {
+    return this.applicationService.getApplicationByApiKey(req.apiKey);
   }
 }

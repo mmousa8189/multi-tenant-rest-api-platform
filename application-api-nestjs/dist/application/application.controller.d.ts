@@ -14,5 +14,6 @@ export declare class ApplicationController {
     findOne(id: string, req: RequestWithUser): Promise<Application>;
     update(id: string, updateApplicationDto: CreateApplicationDto, req: RequestWithUser): Promise<Application>;
     remove(id: string, req: RequestWithUser): Promise<void>;
+    testDomain(req: any): Promise<Partial<Application>>;
 }
 export {};

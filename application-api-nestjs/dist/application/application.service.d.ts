@@ -10,4 +10,5 @@ export declare class ApplicationService {
     update(id: string, updateApplicationDto: CreateApplicationDto, userId: string): Promise<Application>;
     remove(id: string, userId: string): Promise<void>;
     findByApiKey(apiKey: string): Promise<Application>;
+    getApplicationByApiKey(apiKey: string): Promise<Partial<Application>>;
 }
